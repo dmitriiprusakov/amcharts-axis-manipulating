@@ -1,0 +1,13 @@
+{
+  "*.{ts,tsx}": [
+    "prettier --write",
+    "eslint --no-ignore --max-warnings=1000 --fix",
+    "git add"
+  ],
+  "*.css": [
+    "prettier --write",
+    "stylelint --fix",
+    "git add"
+  ],
+  "*.{graphql,json}": ["prettier --write", "git add"]
+}
