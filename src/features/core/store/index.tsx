@@ -1,3 +1,4 @@
+import { XYChart } from "@amcharts/amcharts4/charts";
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import { DataItem } from "../types";
@@ -6,11 +7,17 @@ export const createCoreStore = () => {
   return {
     isLoaded: 0,
 
+    chartInstance: null as XYChart | null,
+
+    setChartInstance(value: XYChart) {
+      this.chartInstance = value;
+    },
+
     data: [] as DataItem[],
 
     generateData(parametersCount = 1, pointsCount = 100) {
       const data: DataItem[] = [];
-      for (let i = 1; i < pointsCount; i += 1) {
+      for (let i = 1; i <= pointsCount; i += 1) {
         const dataItem: DataItem = {
           ts: new Date(2020, 0, i), // getTime() to ts.
         };
