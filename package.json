@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Grouping and sorting vertically stacked axis with drag&drop",
   "author": "DmitryTevtonsky",
+  "homepage": "https://dmitrytevtonsky.github.io/amcharts-axis-manipulating",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -19,6 +20,7 @@
     "clean": "rimraf dist",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "deploy": "gh-pages -d build",
     "format:prettier": "prettier --write \"src/**/*.{ts,tsx}\" package.json",
     "format:stylelint": "stylelint --color --fix \"src/**/*.css\"",
     "format:eslint": "eslint --fix --cache \"src/**/*.{ts,tsx}\"",
@@ -28,6 +30,7 @@
     "@amcharts/amcharts4": "^4.10.4",
     "antd": "^4.6.3",
     "classnames": "^2.2.6",
+    "gh-pages": "^3.1.0",
     "i18next": "^19.7.0",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-http-backend": "^1.0.18",
