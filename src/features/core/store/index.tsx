@@ -1,7 +1,7 @@
-import { XYChart } from "@amcharts/amcharts4/charts";
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { XYChart } from "@amcharts/amcharts4/charts";
 
-import { DataItem } from "../types";
+import { DataPoint, Tag } from "../types";
 
 export const createCoreStore = () => {
   return {
@@ -13,31 +13,39 @@ export const createCoreStore = () => {
       this.chartInstance = value;
     },
 
-    data: [] as DataItem[],
-
-    generateData(parametersCount = 1, pointsCount = 100) {
-      const data: DataItem[] = [];
-      for (let i = 1; i <= pointsCount; i += 1) {
-        const dataItem: DataItem = {
-          ts: new Date(2020, 0, i), // getTime() to ts.
+    tags: [] as Tag[],
+    generateTags(tagsCount: number) {
+      const tags = Array.from({ length: tagsCount }, (v, key) => {
+        return {
+          id: key,
+          name: `tag-${key}`,
         };
-        data.push(dataItem);
-      }
-      const valuedData = data.map((datePoint) => {
-        const values = [] as number[];
-
-        for (let i = 1; i <= parametersCount; i += 1) {
-          let value = Math.round(Math.random() * 100) + 100;
-          value += Math.round(
-            (Math.random() < 0.5 ? 1 : -1) * Math.random() * 30 + i / 5
-          );
-          values.push(value);
-        }
-        return { ...datePoint, ...values };
       });
-      console.log("valuedData", valuedData);
+      console.log("tags", tags);
+      this.tags = tags;
+    },
 
-      this.data = valuedData;
+    data: [] as DataPoint[],
+    generateData(parametersCount = 1, pointsCount = 100) {
+      this.generateTags(parametersCount);
+      const data: DataPoint[] = Array.from(
+        { length: pointsCount },
+        (v, key) => {
+          return {
+            ts: new Date(2020, 0, key),
+            ...Object.keys(this.tags).map(
+              (tag) =>
+                Math.round(Math.random() * 100) +
+                100 +
+                Math.round(
+                  (Math.random() < 0.5 ? 1 : -1) * Math.random() * 30 + key / 5
+                )
+            ),
+          };
+        }
+      );
+      console.log("data", data);
+      this.data = data;
     },
   };
 };
