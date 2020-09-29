@@ -22,6 +22,7 @@ const createChart = (div: string): { chart: XYChart } => {
 
   chart.bottomAxesContainer.parent = axisContainer;
   dateAxis.tooltip!.parent = axisContainer;
+  dateAxis.renderer.ticks.template.parent = axisContainer;
 
   return { chart };
 };
@@ -32,11 +33,11 @@ const createDateAxis = (chart: XYChart) => {
   dateAxis.endLocation = 0.5;
   dateAxis.renderer.minGridDistance = 100;
 
-  dateAxis.renderer.line.strokeOpacity = 1;
+  dateAxis.renderer.line.strokeOpacity = 0.5;
   dateAxis.renderer.line.strokeWidth = 5;
   dateAxis.renderer.line.stroke = am4core.color("#000000");
 
-  // dateAxis.renderer.ticks.template.disabled = false;
+  dateAxis.renderer.ticks.template.disabled = false;
   dateAxis.renderer.ticks.template.strokeOpacity = 1;
   dateAxis.renderer.ticks.template.length = 10;
 
