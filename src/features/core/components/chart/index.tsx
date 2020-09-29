@@ -8,17 +8,22 @@ import { createChart, createSeries } from "./utils";
 import css from "./index.module.css";
 
 const Chart: React.FC = observer(() => {
-  const { data, chartInstance, generateData, setChartInstance } = useRootData(
-    (state) => ({
-      data: state.core.data,
-      chartInstance: state.core.chartInstance,
-      generateData: state.core.generateData,
-      setChartInstance: state.core.setChartInstance,
-    })
-  );
+  const {
+    tags,
+    data,
+    chartInstance,
+    generateData,
+    setChartInstance,
+  } = useRootData((state) => ({
+    tags: state.core.tags,
+    data: state.core.data,
+    chartInstance: state.core.chartInstance,
+    generateData: state.core.generateData,
+    setChartInstance: state.core.setChartInstance,
+  }));
 
   useEffect(() => {
-    generateData(10);
+    generateData(30);
 
     const { chart } = createChart("chart");
     setChartInstance(chart);
@@ -33,16 +38,17 @@ const Chart: React.FC = observer(() => {
         chartInstance.series.clear();
         chartInstance.data = data;
 
-        for (let i = 0; i < 10; i += 1) {
-          createSeries(chartInstance, i);
-        }
+        tags.forEach(({ id }) => createSeries(chartInstance, id));
       }
     }
-  }, [data, chartInstance]);
+  }, [tags, data, chartInstance]);
 
   return (
-    <div className={css.chartLayout}>
-      <div className={css.chart} id="chart" />
+    <div className={css.layout}>
+      <div className={css.chartLayout}>
+        <div className={css.chart} id="chart" />
+      </div>
+      <div className={css.chartDateAxis} id="date-axis" />
     </div>
   );
 });

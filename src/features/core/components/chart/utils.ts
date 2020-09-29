@@ -1,38 +1,44 @@
 import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4core from "@amcharts/amcharts4/core";
-import { ValueAxis, XYChart } from "@amcharts/amcharts4/charts";
+import { ValueAxis, XYChart, XYSeries } from "@amcharts/amcharts4/charts";
 
 const interfaceColors = new am4core.InterfaceColorSet();
 
 const createChart = (div: string): { chart: XYChart } => {
   const chart = am4core.create(div, am4charts.XYChart);
 
-  chart.padding(0, 16, 0, 16);
+  chart.padding(0, 0, 0, 0); // reset default 0's
   chart.leftAxesContainer.layout = "vertical";
 
   const dateAxis = createDateAxis(chart);
 
-  const scrollbarX = new am4core.Scrollbar();
-  chart.scrollbarX = scrollbarX;
-  chart.scrollbarX.startGrip.icon.disabled = true;
-  chart.scrollbarX.endGrip.icon.disabled = true;
-
   const cursor = new am4charts.XYCursor();
   chart.cursor = cursor;
   chart.cursor.xAxis = dateAxis;
+
+  const axisContainer = am4core.create("date-axis", am4core.Container);
+  axisContainer.width = am4core.percent(100);
+  axisContainer.height = am4core.percent(100);
+
+  chart.bottomAxesContainer.parent = axisContainer;
+  dateAxis.tooltip!.parent = axisContainer;
 
   return { chart };
 };
 
 const createDateAxis = (chart: XYChart) => {
   const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-
+  dateAxis.startLocation = 0.5;
+  dateAxis.endLocation = 0.5;
   dateAxis.renderer.minGridDistance = 100;
-  dateAxis.renderer.grid.template.location = 0;
 
-  dateAxis.renderer.ticks.template.disabled = false;
-  dateAxis.renderer.ticks.template.strokeOpacity = 0.2;
-  dateAxis.renderer.ticks.template.length = 4;
+  dateAxis.renderer.line.strokeOpacity = 1;
+  dateAxis.renderer.line.strokeWidth = 5;
+  dateAxis.renderer.line.stroke = am4core.color("#000000");
+
+  // dateAxis.renderer.ticks.template.disabled = false;
+  dateAxis.renderer.ticks.template.strokeOpacity = 1;
+  dateAxis.renderer.ticks.template.length = 10;
 
   dateAxis.renderer.labels.template.location = 0.5;
   dateAxis.renderer.labels.template.verticalCenter = "middle";
@@ -41,12 +47,10 @@ const createDateAxis = (chart: XYChart) => {
   return dateAxis;
 };
 
-const createSeries = (chart: am4charts.XYChart, id: number) => {
-  let series: am4charts.XYSeries;
-
+const createSeries = (chart: XYChart, id: number): XYSeries => {
   const valueAxis = createValueAxis(chart);
 
-  series = createSeriesInstance(chart, valueAxis, id);
+  const series: am4charts.XYSeries = createSeriesInstance(chart, valueAxis, id);
 
   return series;
 };
@@ -79,6 +83,7 @@ const createSeriesInstance = (
   seriesInstance.dataFields.dateX = "ts";
   seriesInstance.yAxis = valueAxis;
   seriesInstance.name = `${id}`;
+  seriesInstance.tooltipText = `Значение: {valueY}`;
 
   return seriesInstance;
 };
