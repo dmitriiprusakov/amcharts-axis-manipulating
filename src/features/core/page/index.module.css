@@ -17,7 +17,7 @@ body {
 
 #root {
     height: 100%;
-    width: 100%; 
+    width: 100%;
 }
 
 * ::-webkit-scrollbar {
@@ -35,4 +35,17 @@ body {
 
 *::-webkit-scrollbar-thumb {
     /* background: var(--scroll-thumb); */
+}
+
+.layout {
+    position: fixed;
+    width: 100%;
+}
+
+.sider {
+    overflow: auto;
+}
+
+.content {
+    overflow: auto;
 }

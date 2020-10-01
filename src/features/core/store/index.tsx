@@ -26,7 +26,7 @@ export const createCoreStore = () => {
     },
 
     data: [] as DataPoint[],
-    generateData(parametersCount = 1, pointsCount = 100) {
+    generateData({ parametersCount = 10, pointsCount = 100 }) {
       this.generateTags(parametersCount);
       const data: DataPoint[] = Array.from(
         { length: pointsCount },

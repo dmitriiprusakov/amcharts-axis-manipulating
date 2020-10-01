@@ -23,7 +23,7 @@ const Chart: React.FC = observer(() => {
   }));
 
   useEffect(() => {
-    generateData(30);
+    generateData({ parametersCount: 5, pointsCount: 300 });
 
     const { chart } = createChart("chart");
     setChartInstance(chart);
