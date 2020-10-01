@@ -7,6 +7,17 @@ export const createCoreStore = () => {
   return {
     isLoaded: 0,
 
+    isSiderCollapsed: false,
+    isSiderCollapsingNow: false,
+    setSiderCollapsed(value: boolean) {
+      this.isSiderCollapsingNow = true;
+
+      this.isSiderCollapsed = value;
+      setTimeout(() => {
+        this.isSiderCollapsingNow = false;
+      }, 1000); // timing like sidebar transition duration
+    },
+
     chartInstance: null as XYChart | null,
 
     setChartInstance(value: XYChart) {

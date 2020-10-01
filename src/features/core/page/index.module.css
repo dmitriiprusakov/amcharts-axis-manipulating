@@ -44,8 +44,17 @@ body {
 
 .sider {
     overflow: auto;
+    transition: all 1s ease 0s !important;
+}
+
+.sider :global(.ant-layout-sider-trigger) {
+    transition: all 1s ease 0s !important;
 }
 
 .content {
     overflow: auto;
+}
+
+.contentHidden {
+    display: none;
 }
