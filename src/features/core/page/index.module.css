@@ -5,12 +5,12 @@ body {
     background-color: white;
     margin: 0;
     padding: 0;
+    font-family: Geneva, Arial, Helvetica, sans-serif;
 }
 
 
 :root {
     font-size: 16px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     height: 100%;
     width: 100%;
 }

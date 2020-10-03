@@ -24,6 +24,11 @@ export const createCoreStore = () => {
       this.chartInstance = value;
     },
 
+    axesOrder: [] as string[],
+    setAxesOrder(value: string[]) {
+      this.axesOrder = value;
+    },
+
     axes: {} as Axes,
 
     tags: [] as Tag[],
@@ -40,14 +45,17 @@ export const createCoreStore = () => {
           ...acc,
           [`axis-${key}`]: {
             name: `Axis-${key}`,
+            id: `axis-${key}`,
             tags: [tag],
           },
         };
       }, {} as Axes);
 
+      const axesOrder = Object.keys(axes);
       console.log("axes", axes);
+      console.log("axesOrder", axesOrder);
 
-      // this.tags = tags;
+      this.axesOrder = axesOrder;
       this.axes = axes;
     },
 

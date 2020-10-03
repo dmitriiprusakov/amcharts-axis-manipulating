@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useRootData } from "features/core/hooks";
 
-import { createChart, createSeries } from "./utils";
+import { createChart } from "./utils";
 
 import css from "./index.module.css";
 

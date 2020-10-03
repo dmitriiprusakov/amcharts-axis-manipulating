@@ -1,0 +1,19 @@
+.axisItem {
+    padding: 0 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #dddddd;
+    border-radius: 0.25rem;
+    position: relative;
+}
+
+.axisTitle {
+    color: rgba(130, 130, 130, 0.5);
+}
+
+.dragIcon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    line-height: normal;
+    padding-right: 2px;
+}

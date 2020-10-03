@@ -10,13 +10,38 @@ import { AxisItem } from "./components";
 import css from "./index.module.css";
 
 const Legend: React.FC = observer(() => {
-  const { axes, isSiderCollapsed } = useRootData((state) => ({
-    axes: state.core.axes,
-    isSiderCollapsed: state.core.isSiderCollapsed,
-  }));
+  const { axes, axesOrder, setAxesOrder, isSiderCollapsed } = useRootData(
+    (state) => ({
+      axes: state.core.axes,
+      axesOrder: state.core.axesOrder,
+      setAxesOrder: state.core.setAxesOrder,
+
+      isSiderCollapsed: state.core.isSiderCollapsed,
+    })
+  );
 
   const onDragEnd = (result: DropResult) => {
     console.log("result", result);
+
+    const { draggableId, destination, source, type } = result;
+    if (!destination) return; // TODO: creating new axis
+
+    const isSamePlace =
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index;
+
+    if (isSamePlace) return;
+
+    if (type === "axes") {
+      // to re-order axes
+      const newAxesOrder = Array.from(axesOrder);
+
+      newAxesOrder.splice(source.index, 1);
+      newAxesOrder.splice(destination.index, 0, draggableId);
+      console.log("newAxesOrder", newAxesOrder);
+
+      setAxesOrder(newAxesOrder);
+    }
   };
 
   return (
@@ -28,16 +53,16 @@ const Legend: React.FC = observer(() => {
       >
         LEGEND
       </h2>
-      {Object.keys(axes).length && (
+      {axesOrder.length && (
         <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable direction="vertical" droppableId="all-axises" type="axis">
+          <Droppable direction="vertical" droppableId="axes" type="axes">
             {(provided) => (
               <div
                 className="container"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {Object.keys(axes).map((axisKey, index) => {
+                {axesOrder.map((axisKey, index) => {
                   const axis = axes[axisKey];
                   return <AxisItem key={axisKey} axis={axis} index={index} />;
                 })}

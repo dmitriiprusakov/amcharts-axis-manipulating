@@ -1,8 +1,6 @@
 import { Layout, Result } from "antd";
-import AreaChartOutlined from "@ant-design/icons/AreaChartOutlined";
-
-import { CollapseType } from "antd/lib/layout/Sider";
 import { observer } from "mobx-react-lite";
+import AreaChartOutlined from "@ant-design/icons/AreaChartOutlined";
 import React, { useEffect } from "react";
 
 import cn from "classnames";
@@ -33,8 +31,6 @@ const Core: React.FC = observer(() => {
   }, [generateData]);
 
   const onCollapse = (collapsed: boolean) => setSiderCollapsed(collapsed);
-
-  console.log("isSiderCollapsingNow", isSiderCollapsingNow);
 
   return (
     <Layout className={css.layout}>

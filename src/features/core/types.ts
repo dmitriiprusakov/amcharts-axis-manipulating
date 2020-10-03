@@ -10,6 +10,7 @@ export type Tag = {
 };
 
 export type Axis = {
+  id: string;
   name: string;
   tags: Tag[];
 };
