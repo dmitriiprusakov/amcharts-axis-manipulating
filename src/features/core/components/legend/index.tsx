@@ -58,7 +58,7 @@ const Legend: React.FC = observer(() => {
           <Droppable direction="vertical" droppableId="axes" type="axes">
             {(provided) => (
               <div
-                className="container"
+                className={css.legendDrappableContainer}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >

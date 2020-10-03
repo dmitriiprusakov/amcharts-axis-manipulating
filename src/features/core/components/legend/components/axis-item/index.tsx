@@ -12,6 +12,8 @@ type AxisItemProps = {
   index: number;
 };
 const AxisItem: FC<AxisItemProps> = ({ axis, index }: AxisItemProps) => {
+  console.log("axis", axis);
+
   return (
     <Draggable draggableId={`${axis.id}`} index={index}>
       {(provided) => (
@@ -23,8 +25,13 @@ const AxisItem: FC<AxisItemProps> = ({ axis, index }: AxisItemProps) => {
         >
           <h4 className={css.axisTitle}>
             <span>{axis.name}</span>
-            <span className={css.dragIcon}>⋮⋮</span>
+            <span className={css.axisDragIcon}>⋮⋮</span>
           </h4>
+          <div className={css.axisTags}>
+            {axis.tags.map((tag) => {
+              return <div key={tag.id}>{tag.name}</div>;
+            })}
+          </div>
         </div>
       )}
     </Draggable>

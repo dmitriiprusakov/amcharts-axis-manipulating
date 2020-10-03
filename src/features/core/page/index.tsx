@@ -41,6 +41,7 @@ const Core: React.FC = observer(() => {
         collapsible
         onCollapse={onCollapse}
         theme="light"
+        width="20%"
       >
         <Legend />
       </Sider>

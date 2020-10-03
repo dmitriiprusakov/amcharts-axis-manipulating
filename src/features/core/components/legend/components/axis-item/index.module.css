@@ -1,5 +1,4 @@
 .axisItem {
-    padding: 0 0.5rem;
     margin-bottom: 0.5rem;
     border: 1px solid #dddddd;
     border-radius: 0.25rem;
@@ -7,10 +6,16 @@
 }
 
 .axisTitle {
-    color: rgba(130, 130, 130, 0.5);
+    color: rgba(130, 130, 130, 0.45);
+    padding-left: 0.5rem;
+    border-bottom: 1px solid #f0f0f0;
 }
 
-.dragIcon {
+.axisTags {
+    padding: 0.5rem;
+}
+
+.axisDragIcon {
     position: absolute;
     top: 0;
     right: 0;
