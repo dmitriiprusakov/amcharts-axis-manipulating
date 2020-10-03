@@ -5,6 +5,15 @@ export type DataPoint = {
 };
 
 export type Tag = {
-  id: number;
+  id: string;
   name: string;
+};
+
+export type Axis = {
+  name: string;
+  tags: Tag[];
+};
+
+export type Axes = {
+  [key: string]: Axis;
 };

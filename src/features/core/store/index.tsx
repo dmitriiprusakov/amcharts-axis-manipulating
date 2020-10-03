@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { XYChart } from "@amcharts/amcharts4/charts";
 
-import { DataPoint, Tag } from "../types";
+import { Axes, DataPoint, Tag } from "../types";
 
 export const createCoreStore = () => {
   return {
@@ -24,16 +24,31 @@ export const createCoreStore = () => {
       this.chartInstance = value;
     },
 
+    axes: {} as Axes,
+
     tags: [] as Tag[],
     generateTags(tagsCount: number) {
-      const tags = Array.from({ length: tagsCount }, (v, key) => {
-        return {
-          id: key,
+      const axes = Array.from(
+        { length: tagsCount },
+        (v, key) => key + 1
+      ).reduce((acc, key) => {
+        const tag = {
+          id: `tag-${key}`,
           name: `tag-${key}`,
         };
-      });
-      console.log("tags", tags);
-      this.tags = tags;
+        return {
+          ...acc,
+          [`axis-${key}`]: {
+            name: `Axis-${key}`,
+            tags: [tag],
+          },
+        };
+      }, {} as Axes);
+
+      console.log("axes", axes);
+
+      // this.tags = tags;
+      this.axes = axes;
     },
 
     data: [] as DataPoint[],
