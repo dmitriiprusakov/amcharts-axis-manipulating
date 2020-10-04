@@ -9,10 +9,14 @@ export type Tag = {
   name: string;
 };
 
+export type Tags = {
+  [key: string]: Tag;
+};
+
 export type Axis = {
   id: string;
   name: string;
-  tags: Tag[];
+  tags: Tags;
 };
 
 export type Axes = {

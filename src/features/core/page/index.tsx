@@ -37,7 +37,7 @@ const Core: React.FC = observer(() => {
       <Sider
         className={css.sider}
         collapsed={isSiderCollapsed}
-        collapsedWidth={100}
+        collapsedWidth={150}
         collapsible
         onCollapse={onCollapse}
         theme="light"
