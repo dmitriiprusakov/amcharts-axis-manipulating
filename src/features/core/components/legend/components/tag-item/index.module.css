@@ -1,0 +1,13 @@
+.tagItem {
+    padding: 0.25rem;
+    border: 1px solid #dddddd;
+    border-radius: 0.25rem;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tagDragIcon {
+    color: rgba(130, 130, 130, 0.45)
+}
