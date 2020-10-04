@@ -5,10 +5,17 @@
     position: relative;
 }
 
+.isAxisItemDraggableNow {
+    border: 1px solid #289bd6;
+}
+
 .axisTitle {
     color: rgba(130, 130, 130, 0.45);
     padding-left: 0.5rem;
     border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .axisTags {
@@ -16,9 +23,5 @@
 }
 
 .axisDragIcon {
-    position: absolute;
-    top: 0;
-    right: 0;
-    line-height: normal;
     padding-right: 2px;
 }

@@ -56,9 +56,11 @@ const Legend: React.FC = observer(() => {
       {axesOrder.length && (
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable direction="vertical" droppableId="axes" type="axes">
-            {(provided) => (
+            {(provided, snapshot) => (
               <div
-                className={css.legendDrappableContainer}
+                className={cn(css.legendDroppableContainer, {
+                  [css.isContainerDroppableNow]: snapshot.isDraggingOver,
+                })}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >

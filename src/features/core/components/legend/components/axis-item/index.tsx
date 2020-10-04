@@ -1,10 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { Draggable } from "react-beautiful-dnd";
-import DashOutlined from "@ant-design/icons/DashOutlined";
 import React, { FC } from "react";
+import cn from "classnames";
 
 import { Axis } from "features/core/types";
-
 import css from "./index.module.css";
 
 type AxisItemProps = {
@@ -16,10 +15,12 @@ const AxisItem: FC<AxisItemProps> = ({ axis, index }: AxisItemProps) => {
 
   return (
     <Draggable draggableId={`${axis.id}`} index={index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
-          className={css.axisItem}
+          className={cn(css.axisItem, {
+            [css.isAxisItemDraggableNow]: snapshot.isDragging,
+          })}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
