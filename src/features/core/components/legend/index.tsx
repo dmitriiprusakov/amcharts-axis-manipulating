@@ -4,26 +4,34 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import cn from "classnames";
 
+import { Tags } from "features/core/types";
 import { useRootData } from "features/core/hooks";
 
 import { AxisItem } from "./components";
+
 import css from "./index.module.css";
 
 const Legend: React.FC = observer(() => {
-  const { axes, axesOrder, setAxesOrder, isSiderCollapsed } = useRootData(
-    (state) => ({
-      axes: state.core.axes,
-      axesOrder: state.core.axesOrder,
-      setAxesOrder: state.core.setAxesOrder,
+  const {
+    axesOrder,
+    axesDictionary,
+    setAxesOrder,
+    setAxesDictionary,
+    isSiderCollapsed,
+  } = useRootData((state) => ({
+    axesOrder: state.core.axesOrder,
+    axesDictionary: state.core.axesDictionary,
+    setAxesOrder: state.core.setAxesOrder,
+    setAxesDictionary: state.core.setAxesDictionary,
+    isSiderCollapsed: state.core.isSiderCollapsed,
+  }));
 
-      isSiderCollapsed: state.core.isSiderCollapsed,
-    })
-  );
-
-  const onDragEnd = (result: DropResult) => {
-    console.log("result", result);
-
-    const { draggableId, destination, source, type } = result;
+  const onDragEnd = ({
+    draggableId,
+    destination,
+    source,
+    type,
+  }: DropResult) => {
     if (!destination) return; // TODO: creating new axis
 
     const isSamePlace =
@@ -33,15 +41,74 @@ const Legend: React.FC = observer(() => {
     if (isSamePlace) return;
 
     if (type === "axes") {
-      // to re-order axes
+      // To re-order axes
       const newAxesOrder = Array.from(axesOrder);
-
       newAxesOrder.splice(source.index, 1);
       newAxesOrder.splice(destination.index, 0, draggableId);
-      console.log("newAxesOrder", newAxesOrder);
 
       setAxesOrder(newAxesOrder);
+      return;
     }
+
+    const startAxis = axesDictionary[source.droppableId];
+    const finishAxis = axesDictionary[destination.droppableId];
+    // console.log(startAxis, finishAxis);
+
+    if (startAxis === finishAxis) {
+      // Moving tags inside axis
+
+      const newTags = Array.from(startAxis.tags);
+      newTags.splice(source.index, 1);
+      newTags.splice(destination.index, 0, draggableId);
+
+      const newAxesDictionary = {
+        ...axesDictionary,
+        [source.droppableId]: {
+          ...startAxis,
+          tags: newTags,
+        },
+      };
+      setAxesDictionary(newAxesDictionary);
+      return;
+    }
+    // Moving tag from one axis to another
+
+    const startTagsKeys = Array.from(startAxis.tags);
+    // Updating start axis - removing draggable tag
+    startTagsKeys.splice(source.index, 1);
+    console.log("startTagsKeys", startTagsKeys);
+
+    const newStartAxis = {
+      [source.droppableId]: {
+        ...startAxis,
+        tags: startTagsKeys,
+      },
+    };
+
+    const finishTagsKeys = Array.from(finishAxis.tags);
+    // Updating finish axis - adding draggable tag
+    finishTagsKeys.splice(destination.index, 0, draggableId);
+
+    const newFinishAxis = {
+      [destination.droppableId]: {
+        ...finishAxis,
+        tags: finishTagsKeys,
+      },
+    };
+    const newAxesDictionary = {
+      ...axesDictionary,
+      ...newStartAxis,
+      ...newFinishAxis,
+    };
+    if (!startTagsKeys.length) {
+      delete newAxesDictionary[source.droppableId];
+      setAxesOrder(axesOrder.filter((axis) => axis !== source.droppableId));
+    }
+    console.log("newAxesDictionary", newAxesDictionary);
+
+    // Clearing empty axes
+    // const clearedAxesDictionary =
+    setAxesDictionary(newAxesDictionary);
   };
 
   return (
@@ -65,7 +132,7 @@ const Legend: React.FC = observer(() => {
                 ref={provided.innerRef}
               >
                 {axesOrder.map((axisKey, index) => {
-                  const axis = axes[axisKey];
+                  const axis = axesDictionary[axisKey];
                   return <AxisItem key={axisKey} axis={axis} index={index} />;
                 })}
                 {provided.placeholder}

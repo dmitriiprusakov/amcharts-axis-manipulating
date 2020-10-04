@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { Draggable, Droppable } from "react-beautiful-dnd";
+import { useRootData } from "features/core/hooks";
 import React, { FC } from "react";
 import cn from "classnames";
 
@@ -15,6 +16,9 @@ const AxisItem: FC<AxisItemProps> = ({
   axis: { tags, name, id },
   index,
 }: AxisItemProps) => {
+  const { tagsDictionary } = useRootData((state) => ({
+    tagsDictionary: state.core.tagsDictionary,
+  }));
   // console.log("axis", axis);
   const AxisTitle = (
     <h4 className={css.axisTitle}>
@@ -42,8 +46,8 @@ const AxisItem: FC<AxisItemProps> = ({
                 {...providedDroppable.droppableProps}
                 className={css.axisTags}
               >
-                {Object.keys(tags).map((tagKey, tagIndex) => {
-                  const tag = tags[tagKey];
+                {tags.map((tagKey, tagIndex) => {
+                  const tag = tagsDictionary[tagKey];
                   return <TagItem key={tag.id} index={tagIndex} tag={tag} />;
                 })}
                 {providedDroppable.placeholder}

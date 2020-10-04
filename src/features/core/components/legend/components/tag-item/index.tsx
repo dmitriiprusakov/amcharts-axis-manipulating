@@ -11,8 +11,6 @@ type TagItemProps = {
   index: number;
 };
 const TagItem: FC<TagItemProps> = ({ tag, index }: TagItemProps) => {
-  //   console.log("tag", tag);
-
   return (
     <Draggable draggableId={`${tag.id}`} index={index}>
       {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { XYChart } from "@amcharts/amcharts4/charts";
 
-import { Axes, DataPoint, Tag, Tags } from "../types";
+import { Axes, DataPoint, Tags } from "../types";
 
 export const createCoreStore = () => {
   return {
@@ -24,16 +24,9 @@ export const createCoreStore = () => {
       this.chartInstance = value;
     },
 
-    axesOrder: [] as string[],
-    setAxesOrder(value: string[]) {
-      this.axesOrder = value;
-    },
-
-    axes: {} as Axes,
-
-    tags: {} as Tags,
+    tagsDictionary: {} as Tags,
     generateTags(tagsCount: number) {
-      const axes = Array.from(
+      const tags = Array.from(
         { length: tagsCount },
         (v, key) => key + 1
       ).reduce((acc, key) => {
@@ -43,31 +36,52 @@ export const createCoreStore = () => {
         };
         return {
           ...acc,
+          [`tag-${key}`]: tag,
+        };
+      }, {} as Tags);
+      console.log("tags", tags);
+      this.tagsDictionary = tags;
+    },
+
+    axesDictionary: {} as Axes,
+    setAxesDictionary(value: Axes) {
+      this.axesDictionary = value;
+    },
+    axesOrder: [] as string[],
+    setAxesOrder(value: string[]) {
+      this.axesOrder = value;
+    },
+    generateAxes(axesCount: number) {
+      const axes = Array.from(
+        { length: axesCount },
+        (v, key) => key + 1
+      ).reduce((acc, key) => {
+        return {
+          ...acc,
           [`axis-${key}`]: {
             name: `Axis-${key}`,
             id: `axis-${key}`,
-            tags: { [`tag-${key}`]: tag },
+            tags: [this.tagsDictionary[`tag-${key}`].id],
           },
         };
       }, {} as Axes);
-
       const axesOrder = Object.keys(axes);
       console.log("axes", axes);
-      console.log("axesOrder", axesOrder);
 
       this.axesOrder = axesOrder;
-      this.axes = axes;
+      this.axesDictionary = axes;
     },
 
     data: [] as DataPoint[],
     generateData({ parametersCount = 10, pointsCount = 100 }) {
       this.generateTags(parametersCount);
+      this.generateAxes(parametersCount);
       const data: DataPoint[] = Array.from(
         { length: pointsCount },
         (v, key) => {
           return {
             ts: new Date(2020, 0, key),
-            ...Object.keys(this.tags).map(
+            ...Object.keys(this.tagsDictionary).map(
               (tag) =>
                 Math.round(Math.random() * 100) +
                 100 +

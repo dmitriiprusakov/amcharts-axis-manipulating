@@ -16,7 +16,7 @@ export type Tags = {
 export type Axis = {
   id: string;
   name: string;
-  tags: Tags;
+  tags: string[];
 };
 
 export type Axes = {

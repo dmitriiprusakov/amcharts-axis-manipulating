@@ -8,9 +8,9 @@ import { createChart } from "./utils";
 import css from "./index.module.css";
 
 const Chart: React.FC = observer(() => {
-  const { tags, data, chartInstance, setChartInstance } = useRootData(
+  const { tagsDictionary, data, chartInstance, setChartInstance } = useRootData(
     (state) => ({
-      tags: state.core.tags,
+      tagsDictionary: state.core.tagsDictionary,
       data: state.core.data,
       chartInstance: state.core.chartInstance,
       setChartInstance: state.core.setChartInstance,
@@ -34,7 +34,7 @@ const Chart: React.FC = observer(() => {
         // tags.forEach(({ id }) => createSeries(chartInstance, id));
       }
     }
-  }, [tags, data, chartInstance]);
+  }, [tagsDictionary, data, chartInstance]);
 
   return (
     <div className={css.layout}>
