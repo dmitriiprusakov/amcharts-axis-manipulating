@@ -1,5 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  DragStart,
+  DropResult,
+  Droppable,
+} from "react-beautiful-dnd";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import cn from "classnames";
@@ -13,17 +18,19 @@ import css from "./index.module.css";
 
 const Legend: React.FC = observer(() => {
   const {
+    isSiderCollapsed,
     axesOrder,
     axesDictionary,
     setAxesOrder,
     setAxesDictionary,
-    isSiderCollapsed,
+    setIsTagDraggingNow,
   } = useRootData((state) => ({
+    isSiderCollapsed: state.core.isSiderCollapsed,
     axesOrder: state.core.axesOrder,
     axesDictionary: state.core.axesDictionary,
     setAxesOrder: state.core.setAxesOrder,
     setAxesDictionary: state.core.setAxesDictionary,
-    isSiderCollapsed: state.core.isSiderCollapsed,
+    setIsTagDraggingNow: state.core.setIsTagDraggingNow,
   }));
 
   const onDragEnd = ({
@@ -32,7 +39,8 @@ const Legend: React.FC = observer(() => {
     source,
     type,
   }: DropResult) => {
-    if (!destination) return; // TODO: creating new axis
+    setIsTagDraggingNow(false);
+    if (!destination) return;
 
     const isSamePlace =
       destination.droppableId === source.droppableId &&
@@ -76,7 +84,6 @@ const Legend: React.FC = observer(() => {
     const startTagsKeys = Array.from(startAxis.tags);
     // Updating start axis - removing draggable tag
     startTagsKeys.splice(source.index, 1);
-    console.log("startTagsKeys", startTagsKeys);
 
     const newStartAxis = {
       [source.droppableId]: {
@@ -101,15 +108,16 @@ const Legend: React.FC = observer(() => {
       ...newFinishAxis,
     };
     if (!startTagsKeys.length) {
+      // Clearing axes with no tags
       delete newAxesDictionary[source.droppableId];
       setAxesOrder(axesOrder.filter((axis) => axis !== source.droppableId));
     }
-    console.log("newAxesDictionary", newAxesDictionary);
 
-    // Clearing empty axes
-    // const clearedAxesDictionary =
     setAxesDictionary(newAxesDictionary);
   };
+
+  const onBeforeDragStart = (initial: DragStart) =>
+    setIsTagDraggingNow(initial.type === "tags");
 
   return (
     <div className={css.legendLayout}>
@@ -121,12 +129,15 @@ const Legend: React.FC = observer(() => {
         LEGEND
       </h2>
       {axesOrder.length && (
-        <DragDropContext onDragEnd={onDragEnd}>
+        <DragDropContext
+          onBeforeDragStart={onBeforeDragStart}
+          onDragEnd={onDragEnd}
+        >
           <Droppable direction="vertical" droppableId="axes" type="axes">
-            {(provided, snapshot) => (
+            {(provided, { isDraggingOver }) => (
               <div
                 className={cn(css.legendDroppableContainer, {
-                  [css.isContainerDroppableNow]: snapshot.isDraggingOver,
+                  [css.isContainerDroppableNow]: isDraggingOver,
                 })}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
@@ -139,6 +150,8 @@ const Legend: React.FC = observer(() => {
               </div>
             )}
           </Droppable>
+          {/* {TODO: add trash droppable} */}
+          {/* {TODO: add new-axis droppable} */}
         </DragDropContext>
       )}
     </div>

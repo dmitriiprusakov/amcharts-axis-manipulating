@@ -1,13 +1,24 @@
 .tagItem {
     padding: 0.25rem;
+    margin-bottom: 0.25rem;
     border: 1px solid #dddddd;
     border-radius: 0.25rem;
     background-color: white;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    transition: border 0.3s ease;
 }
 
 .tagDragIcon {
     color: rgba(130, 130, 130, 0.45)
+}
+
+.isTagItemDraggableNow {
+    border: 1px solid #289bd6;
+
+    -webkit-box-shadow: 0px 10px 30px 0px #e6e6e6;
+    -moz-box-shadow: 0px 10px 30px 0px #e6e6e6;
+    box-shadow: 0px 10px 30px 0px #e6e6e6;
 }

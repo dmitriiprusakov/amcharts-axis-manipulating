@@ -43,6 +43,11 @@ export const createCoreStore = () => {
       this.tagsDictionary = tags;
     },
 
+    isTagDraggingNow: false,
+    setIsTagDraggingNow(value: boolean) {
+      this.isTagDraggingNow = value;
+    },
+
     axesDictionary: {} as Axes,
     setAxesDictionary(value: Axes) {
       this.axesDictionary = value;

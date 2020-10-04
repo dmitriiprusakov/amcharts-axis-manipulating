@@ -16,7 +16,9 @@ const TagItem: FC<TagItemProps> = ({ tag, index }: TagItemProps) => {
       {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (
         <h4
           ref={innerRef}
-          className={cn(css.tagItem)}
+          className={cn(css.tagItem, {
+            [css.isTagItemDraggableNow]: snapshot.isDragging,
+          })}
           {...draggableProps}
           {...dragHandleProps}
         >
