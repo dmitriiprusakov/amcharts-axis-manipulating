@@ -14,8 +14,8 @@ const NewAxisCreator: React.FC = observer(() => {
   }));
 
   return (
-    <Droppable direction="vertical" droppableId="new-axis" type="new-axis">
-      {(provided, { isDraggingOver }) => (
+    <Droppable direction="vertical" droppableId="new-axis" type="tags">
+      {(provided) => (
         <div
           className={cn(css.droppableContainer, {
             [css.isDroppableNow]: isTagDraggingNow,

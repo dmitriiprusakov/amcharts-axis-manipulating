@@ -18,6 +18,7 @@ import css from "./index.module.css";
 const Legend: React.FC = observer(() => {
   const {
     isSiderCollapsed,
+    tagsDictionary,
     axesOrder,
     axesDictionary,
     setAxesOrder,
@@ -25,6 +26,7 @@ const Legend: React.FC = observer(() => {
     setIsTagDraggingNow,
   } = useRootData((state) => ({
     isSiderCollapsed: state.core.isSiderCollapsed,
+    tagsDictionary: state.core.tagsDictionary,
     axesOrder: state.core.axesOrder,
     axesDictionary: state.core.axesDictionary,
     setAxesOrder: state.core.setAxesOrder,
@@ -39,6 +41,14 @@ const Legend: React.FC = observer(() => {
     type,
   }: DropResult) => {
     setIsTagDraggingNow(false);
+
+    console.log({
+      draggableId,
+      destination,
+      source,
+      type,
+    });
+
     if (!destination) return;
 
     const isSamePlace =
@@ -54,6 +64,51 @@ const Legend: React.FC = observer(() => {
       newAxesOrder.splice(destination.index, 0, draggableId);
 
       setAxesOrder(newAxesOrder);
+      return;
+    }
+
+    if (type === "tags" && destination.droppableId === "new-axis") {
+      // console.log("CREATE NEW AXIS", {
+      //   axesOrder: [...axesOrder],
+      //   axesDictionary: { ...axesDictionary },
+      //   tagsDictionary: { ...tagsDictionary },
+      // });
+
+      const highestAxesNumber =
+        Math.max(
+          ...axesOrder.map((axeisKey) =>
+            parseInt(axeisKey.replace(/[^\d]/g, ""), 10)
+          )
+        ) + 1;
+
+      const newAxis = {
+        [`axis-${highestAxesNumber}`]: {
+          id: `axis-${highestAxesNumber}`,
+          name: `Axis-${highestAxesNumber}`,
+          tags: [draggableId],
+        },
+      };
+
+      const startAxis = axesDictionary[source.droppableId];
+
+      const newAxesDictionary = {
+        ...axesDictionary,
+        ...newAxis,
+        [source.droppableId]: {
+          ...startAxis,
+          tags: startAxis.tags.filter((tag) => tag !== draggableId),
+        },
+      };
+      console.log("newAxesDictionary", newAxesDictionary);
+      // TODO: очищать оси без тегов из словаря?
+
+      // Clearing axes with no tags
+      if (!newAxesDictionary[source.droppableId].tags.length)
+        delete newAxesDictionary[source.droppableId];
+
+      setAxesOrder(Object.keys(newAxesDictionary));
+      setAxesDictionary(newAxesDictionary);
+
       return;
     }
 
@@ -109,6 +164,8 @@ const Legend: React.FC = observer(() => {
     if (!startTagsKeys.length) {
       // Clearing axes with no tags
       delete newAxesDictionary[source.droppableId];
+      console.log("!!!newAxesDictionary", newAxesDictionary);
+
       setAxesOrder(axesOrder.filter((axis) => axis !== source.droppableId));
     }
 

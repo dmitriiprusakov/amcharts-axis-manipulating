@@ -5,10 +5,6 @@
     transition: border var(--drag-transition-speed) ease, border-color var(--drag-transition-speed) ease;
 }
 
-.axisItem:last-child {
-    margin-bottom: 0;
-}
-
 .isAxisItemDraggableNow {
     background: white;
     -webkit-box-shadow: 0px 10px 30px 0px #e6e6e6;

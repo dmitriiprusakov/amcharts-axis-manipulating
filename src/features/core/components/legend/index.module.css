@@ -8,7 +8,7 @@
 .legendTitle {
     padding: 0 0.5rem;
     letter-spacing: 0.5ch;
-    transition: all 0.5s;
+    transition: opacity 0.5s;
 }
 
 .legendTitleHidden {
@@ -16,9 +16,9 @@
 }
 
 .legendDroppableContainer {
-    /* height: 100%; */
     width: 100%;
     padding: 0.5rem;
+    padding-bottom: 0;
     border: 1px dashed transparent;
     border-radius: 0.25rem;
 
