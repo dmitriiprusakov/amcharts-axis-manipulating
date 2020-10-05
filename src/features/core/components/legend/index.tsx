@@ -9,11 +9,10 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import cn from "classnames";
 
-import { Tags } from "features/core/types";
 import { useRootData } from "features/core/hooks";
 
 import { AxisItem } from "./components";
-
+import NewAxisCreator from "./components/new-axis-creator";
 import css from "./index.module.css";
 
 const Legend: React.FC = observer(() => {
@@ -150,8 +149,8 @@ const Legend: React.FC = observer(() => {
               </div>
             )}
           </Droppable>
+          <NewAxisCreator />
           {/* {TODO: add trash droppable} */}
-          {/* {TODO: add new-axis droppable} */}
         </DragDropContext>
       )}
     </div>

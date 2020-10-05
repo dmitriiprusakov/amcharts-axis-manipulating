@@ -2,7 +2,11 @@
     margin-bottom: 0.5rem;
     border-radius: 0.25rem;
     background: white;
-    transition: border 0.3s ease;
+    transition: border var(--drag-transition-speed) ease, border-color var(--drag-transition-speed) ease;
+}
+
+.axisItem:last-child {
+    margin-bottom: 0;
 }
 
 .isAxisItemDraggableNow {
@@ -25,6 +29,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    transition: border var(--drag-transition-speed) ease, border-color var(--drag-transition-speed) ease;
 }
 
 .axisTags {
@@ -32,6 +38,8 @@
 
     padding: 0.25rem 0.25rem 0 0.25rem;
     border-radius: 0 0 0.25rem 0.25rem;
+
+    transition: border var(--drag-transition-speed) ease, border-color var(--drag-transition-speed) ease;
 }
 
 .isAxisDraggableBordered {
