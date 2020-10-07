@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.53a72c84.css",
+    "main.js": "/static/js/main.c8f16e17.js",
+    "main.js.map": "/static/js/main.c8f16e17.js.map",
+    "vendors~canvg.js": "/static/js/vendors~canvg.e561d91b.chunk.js",
+    "vendors~canvg.js.map": "/static/js/vendors~canvg.e561d91b.chunk.js.map",
+    "vendors~pdfmake.js": "/static/js/vendors~pdfmake.09e9dd8d.chunk.js",
+    "vendors~pdfmake.js.map": "/static/js/vendors~pdfmake.09e9dd8d.chunk.js.map",
+    "vendors~xlsx.js": "/static/js/vendors~xlsx.e43e462d.chunk.js",
+    "vendors~xlsx.js.map": "/static/js/vendors~xlsx.e43e462d.chunk.js.map",
+    "xlsx.js": "/static/js/xlsx.af814cf1.chunk.js",
+    "xlsx.js.map": "/static/js/xlsx.af814cf1.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.ee60bab69649a2f50d0104a27cac005f.js": "/precache-manifest.ee60bab69649a2f50d0104a27cac005f.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.53a72c84.css.map": "/static/css/main.53a72c84.css.map",
+    "static/js/main.c8f16e17.js.LICENSE.txt": "/static/js/main.c8f16e17.js.LICENSE.txt",
+    "static/js/vendors~pdfmake.09e9dd8d.chunk.js.LICENSE.txt": "/static/js/vendors~pdfmake.09e9dd8d.chunk.js.LICENSE.txt",
+    "static/js/vendors~xlsx.e43e462d.chunk.js.LICENSE.txt": "/static/js/vendors~xlsx.e43e462d.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/css/main.53a72c84.css",
+    "static/js/main.c8f16e17.js"
+  ]
+}
