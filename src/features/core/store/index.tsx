@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { XYChart } from "@amcharts/amcharts4/charts";
 
-import { Axes, DataPoint, Tags } from "../types";
+import { Axes, DataPoint, DataTags, Tags } from "../types";
 
 export const createCoreStore = () => {
   return {
@@ -86,13 +86,13 @@ export const createCoreStore = () => {
         (v, key) => {
           return {
             ts: new Date(2020, 0, key),
-            ...Object.keys(this.tagsDictionary).map(
-              (tag) =>
-                Math.round(Math.random() * 100) +
-                100 +
-                Math.round(
-                  (Math.random() < 0.5 ? 1 : -1) * Math.random() * 30 + key / 5
-                )
+            ...Object.keys(this.tagsDictionary).reduce(
+              (acc, tag) => ({
+                ...acc,
+                [tag]: Math.round(Math.random() * 100) + 100,
+                // Math.round((Math.random() < 0.5 ? 1 : -1) + key / 5),
+              }),
+              {} as DataTags
             ),
           };
         }

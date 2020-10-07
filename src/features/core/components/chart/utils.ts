@@ -48,15 +48,7 @@ const createDateAxis = (chart: XYChart) => {
   return dateAxis;
 };
 
-const createSeries = (chart: XYChart, id: number): XYSeries => {
-  const valueAxis = createValueAxis(chart);
-
-  const series: am4charts.XYSeries = createSeriesInstance(chart, valueAxis, id);
-
-  return series;
-};
-
-const createValueAxis = (chart: am4charts.XYChart) => {
+const createValueAxis = (chart: am4charts.XYChart): ValueAxis => {
   const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
   valueAxis.renderer.gridContainer.background.fill = interfaceColors.getFor(
@@ -69,24 +61,44 @@ const createValueAxis = (chart: am4charts.XYChart) => {
   valueAxis.renderer.labels.template.padding(0, 2, 0, 2);
   valueAxis.renderer.labels.template.verticalCenter = "bottom";
 
+  valueAxis.marginBottom = 10;
+
   return valueAxis;
+};
+
+const createSeries = (
+  chart: XYChart,
+  valueAxis: ValueAxis,
+  id: string
+): XYSeries => {
+  let series: am4charts.XYSeries;
+  if (!valueAxis) {
+    const newValueAxis = createValueAxis(chart);
+    series = createSeriesInstance(chart, newValueAxis, id);
+  } else {
+    series = createSeriesInstance(chart, valueAxis, id);
+  }
+
+  return series;
 };
 
 const createSeriesInstance = (
   chart: am4charts.XYChart,
   valueAxis: ValueAxis,
-  id: number
+  id: string
 ) => {
+  console.log({ valueAxis, id });
+
   const seriesInstance = chart.series.push(new am4charts.LineSeries());
   seriesInstance.strokeWidth = 1;
 
   seriesInstance.dataFields.valueY = `${id}`;
   seriesInstance.dataFields.dateX = "ts";
   seriesInstance.yAxis = valueAxis;
-  seriesInstance.name = `${id}`;
+  seriesInstance.name = id;
   seriesInstance.tooltipText = `Значение: {valueY}`;
 
   return seriesInstance;
 };
 
-export { createChart, createSeries };
+export { createChart, createSeries, createValueAxis };

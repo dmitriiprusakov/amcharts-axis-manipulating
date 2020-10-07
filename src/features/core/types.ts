@@ -4,6 +4,10 @@ export type DataPoint = {
   ts: Date;
 };
 
+export type DataTags = {
+  [key: string]: number;
+};
+
 export type Tag = {
   id: string;
   name: string;
