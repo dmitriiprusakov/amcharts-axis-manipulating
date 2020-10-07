@@ -1,0 +1,30 @@
+.legendLayout {
+    padding: 0.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.legendTitle {
+    padding: 0 0.5rem;
+    letter-spacing: 0.5ch;
+    transition: opacity 0.5s;
+}
+
+.legendTitleHidden {
+    opacity: 0;
+}
+
+.legendDroppableContainer {
+    width: 100%;
+    padding: 0.5rem;
+    padding-bottom: 0;
+    border: 1px dashed transparent;
+    border-radius: 0.25rem;
+
+    transition: border var(--drag-transition-speed) ease, border-color var(--drag-transition-speed) ease;
+}
+
+.isContainerDroppableNow {
+    border: 1px dashed #289bd6;
+}
