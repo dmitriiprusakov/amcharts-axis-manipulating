@@ -7,14 +7,27 @@
     background: white;
     color: rgba(130, 130, 130, 0.45);
     transition: border var(--drag-transition-speed) ease, border-color var(--drag-transition-speed) ease, opacity var(--drag-transition-speed) ease;
+    min-height: 3rem;
+    max-height: 3rem;
 
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+
+
+
+    position: relative;
 }
 
 .isDroppableNow {
     opacity: 1;
     border-color: #289bd6;
+}
+
+.dropHintLayout {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

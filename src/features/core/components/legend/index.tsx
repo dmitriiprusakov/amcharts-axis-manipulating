@@ -67,6 +67,9 @@ const Legend: React.FC = observer(() => {
       return;
     }
 
+    const startAxis = axesDictionary[source.droppableId];
+    const finishAxis = axesDictionary[destination.droppableId];
+
     if (type === "tags" && destination.droppableId === "new-axis") {
       // console.log("CREATE NEW AXIS", {
       //   axesOrder: [...axesOrder],
@@ -89,8 +92,6 @@ const Legend: React.FC = observer(() => {
         },
       };
 
-      const startAxis = axesDictionary[source.droppableId];
-
       const newAxesDictionary = {
         ...axesDictionary,
         ...newAxis,
@@ -99,8 +100,6 @@ const Legend: React.FC = observer(() => {
           tags: startAxis.tags.filter((tag) => tag !== draggableId),
         },
       };
-      console.log("newAxesDictionary", newAxesDictionary);
-      // TODO: очищать оси без тегов из словаря?
 
       // Clearing axes with no tags
       if (!newAxesDictionary[source.droppableId].tags.length)
@@ -111,10 +110,6 @@ const Legend: React.FC = observer(() => {
 
       return;
     }
-
-    const startAxis = axesDictionary[source.droppableId];
-    const finishAxis = axesDictionary[destination.droppableId];
-    // console.log(startAxis, finishAxis);
 
     if (startAxis === finishAxis) {
       // Moving tags inside axis
@@ -133,8 +128,8 @@ const Legend: React.FC = observer(() => {
       setAxesDictionary(newAxesDictionary);
       return;
     }
-    // Moving tag from one axis to another
 
+    // Moving tag from one axis to another
     const startTagsKeys = Array.from(startAxis.tags);
     // Updating start axis - removing draggable tag
     startTagsKeys.splice(source.index, 1);
@@ -164,7 +159,6 @@ const Legend: React.FC = observer(() => {
     if (!startTagsKeys.length) {
       // Clearing axes with no tags
       delete newAxesDictionary[source.droppableId];
-      console.log("!!!newAxesDictionary", newAxesDictionary);
 
       setAxesOrder(axesOrder.filter((axis) => axis !== source.droppableId));
     }

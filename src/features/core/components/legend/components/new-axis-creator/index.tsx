@@ -23,8 +23,10 @@ const NewAxisCreator: React.FC = observer(() => {
           {...provided.droppableProps}
           ref={provided.innerRef}
         >
-          <span>Drop tag here </span>
-          <span>to create new axis</span>
+          <div className={css.dropHintLayout}>
+            <span>Drop tag here </span>
+            <span>to create new axis</span>
+          </div>
           {provided.placeholder}
         </div>
       )}
