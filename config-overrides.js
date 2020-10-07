@@ -21,7 +21,7 @@ const proxyFile = path.resolve(__dirname, 'proxy');
 const removePlugins = () => (config) => {
   return removeWebpackPlugins(config, config.mode, {
     pluginNames: [
-      "MiniCssExtractPlugin",
+      // "MiniCssExtractPlugin",
       "InlineChunkHtmlPlugin",
       "ManifestPlugin",
       "GenerateSW",
@@ -41,21 +41,21 @@ const supportMjs = () => (config) => {
 };
 
 const webpackConfig = () => (config) => {
-  config.output = {
-    ...config.output,
-    path: appBuild,
-    filename: path.join(
-      process.env.npm_package_name,
-      "js",
-      `bundle.js`
-    ),
-    chunkFilename: path.join(
-      process.env.npm_package_name,
-      "js",
-      "chunks",
-      "[name].js"
-    ),
-  }
+  // config.output = {
+  //   ...config.output,
+  //   path: appBuild,
+  //   filename: path.join(
+  //     process.env.npm_package_name,
+  //     "js",
+  //     `bundle.js`
+  //   ),
+  //   chunkFilename: path.join(
+  //     process.env.npm_package_name,
+  //     "js",
+  //     "chunks",
+  //     "[name].js"
+  //   ),
+  // }
   config.optimization.splitChunks = {};
   config.optimization.runtimeChunk = false;
   config.devServer = {
@@ -69,55 +69,29 @@ const webpackConfig = () => (config) => {
   return config;
 };
 
-module.exports = {
-  webpack: override(
-    webpackConfig(),
-    supportMjs(),
-    removePlugins(),
-    addLessLoader({
-      lessOptions: {
-        javascriptEnabled: true,
-        cssModules: {
-          localIdentName: "[path][name]__[local]--[hash:base64:5]",
-        },
+module.exports = override(
+  // webpackConfig(),
+  // supportMjs(),
+  // removePlugins(),
+  fixBabelImports('import', {
+    libraryName: 'antd',
+    libraryDirectory: 'es',
+    style: true
+  }),
+  addLessLoader({
+    lessOptions: {
+      javascriptEnabled: true,
+      cssModules: {
+        localIdentName: "[path][name]__[local]--[hash:base64:5]",
       },
-    }),
-    addBundleVisualizer({}, true),
-    addWebpackPlugin(
-      new TypedCssModulesPlugin({
-        globPattern: "src/**/*.css",
-        camelCase: "dashesOnly"
-      })
-    ),
-    addWebpackPlugin(
-      new MiniCssExtractPlugin({
-        filename: path.join(
-          process.env.npm_package_name,
-          "css",
-          `bundle.css`
-        ),
-        chunkFilename: path.join(
-          process.env.npm_package_name,
-          "css",
-          "chunks",
-          "[id].css"
-        ),
-      })
-    ),
-    addWebpackPlugin(
-      new CopyWebpackPlugin({
-        patterns: [
-          {
-            from: "locales",
-            to: path.join(process.env.npm_package_name, 'locales'),
-          },
-        ],
-      })
-    )
+    },
+  }),
+  addBundleVisualizer({}, true),
+  addWebpackPlugin(
+    new TypedCssModulesPlugin({
+      globPattern: "src/**/*.css",
+      camelCase: "dashesOnly"
+    })
   ),
-  paths(paths) {
-    paths.proxySetup = path.join(proxyFile, 'setupProxy.js');
-    paths.appBuild = appBuild;
-    return paths;
-  },
-};
+)
+
