@@ -1,6 +1,7 @@
 {
   "name": "amcharts-axis-manipulating",
   "version": "0.0.1",
+  "homepage": "https://dmitrytevtonsky.github.io/amcharts-axis-manipulating",
   "description": "Grouping and sorting vertically stacked axis with drag&drop",
   "author": "DmitryTevtonsky",
   "browserslist": {
