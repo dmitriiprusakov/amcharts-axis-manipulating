@@ -7,7 +7,7 @@ import { createChart, createSeries, createValueAxis } from "./utils";
 
 import css from "./index.module.css";
 
-const Chart: React.FC = observer(() => {
+const ChartLayout: React.FC = observer(() => {
   const {
     tagsDictionary,
     axesOrder,
@@ -51,14 +51,24 @@ const Chart: React.FC = observer(() => {
     }
   }, [axesOrder, axesDictionary, tagsDictionary, data, chartInstance]);
 
+  const chartHeight = 200 * axesOrder.length;
+
+  console.log("chartHeight", chartHeight);
+
   return (
     <div className={css.layout}>
       <div className={css.chartLayout}>
-        <div className={css.chart} id="chart" />
+        {chartHeight && (
+          <div
+            className={css.chart}
+            id="chart"
+            style={{ height: chartHeight }}
+          />
+        )}
       </div>
       <div className={css.chartDateAxis} id="date-axis" />
     </div>
   );
 });
 
-export default Chart;
+export default ChartLayout;

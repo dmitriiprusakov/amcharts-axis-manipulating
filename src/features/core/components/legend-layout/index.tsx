@@ -15,10 +15,9 @@ import { AxisItem } from "./components";
 import NewAxisCreator from "./components/new-axis-creator";
 import css from "./index.module.css";
 
-const Legend: React.FC = observer(() => {
+const LegendLayout: React.FC = observer(() => {
   const {
     isSiderCollapsed,
-    tagsDictionary,
     axesOrder,
     axesDictionary,
     setAxesOrder,
@@ -26,7 +25,6 @@ const Legend: React.FC = observer(() => {
     setIsTagDraggingNow,
   } = useRootData((state) => ({
     isSiderCollapsed: state.core.isSiderCollapsed,
-    tagsDictionary: state.core.tagsDictionary,
     axesOrder: state.core.axesOrder,
     axesDictionary: state.core.axesDictionary,
     setAxesOrder: state.core.setAxesOrder,
@@ -41,13 +39,6 @@ const Legend: React.FC = observer(() => {
     type,
   }: DropResult) => {
     setIsTagDraggingNow(false);
-
-    console.log({
-      draggableId,
-      destination,
-      source,
-      type,
-    });
 
     if (!destination) return;
 
@@ -71,12 +62,6 @@ const Legend: React.FC = observer(() => {
     const finishAxis = axesDictionary[destination.droppableId];
 
     if (type === "tags" && destination.droppableId === "new-axis") {
-      // console.log("CREATE NEW AXIS", {
-      //   axesOrder: [...axesOrder],
-      //   axesDictionary: { ...axesDictionary },
-      //   tagsDictionary: { ...tagsDictionary },
-      // });
-
       const highestAxesNumber =
         Math.max(
           ...axesOrder.map((axeisKey) =>
@@ -151,11 +136,13 @@ const Legend: React.FC = observer(() => {
         tags: finishTagsKeys,
       },
     };
+
     const newAxesDictionary = {
       ...axesDictionary,
       ...newStartAxis,
       ...newFinishAxis,
     };
+
     if (!startTagsKeys.length) {
       // Clearing axes with no tags
       delete newAxesDictionary[source.droppableId];
@@ -208,4 +195,4 @@ const Legend: React.FC = observer(() => {
   );
 });
 
-export default Legend;
+export default LegendLayout;
