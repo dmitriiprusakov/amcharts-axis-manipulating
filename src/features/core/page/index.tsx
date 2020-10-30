@@ -29,6 +29,7 @@ const Core: React.FC = observer(() => {
     isSiderCollapsingNow,
     tagsCount,
     pointsCount,
+    isRandomTagsNames,
     generateData,
   } = useRootData((state) => ({
     modals: state.core.modalStates,
@@ -36,12 +37,13 @@ const Core: React.FC = observer(() => {
     isSiderCollapsingNow: state.core.isSiderCollapsingNow,
     tagsCount: state.core.tagsCount,
     pointsCount: state.core.pointsCount,
+    isRandomTagsNames: state.core.isRandomTagsNames,
     generateData: state.core.generateData,
   }));
 
   useEffect(() => {
     generateData({ tagsCount, pointsCount });
-  }, [tagsCount, pointsCount, generateData]);
+  }, [tagsCount, pointsCount, isRandomTagsNames, generateData]);
 
   return (
     <Layout className={css.layout}>
