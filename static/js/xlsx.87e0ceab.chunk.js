@@ -1,2 +1,0 @@
-(this["webpackJsonpamcharts-axis-manipulating"]=this["webpackJsonpamcharts-axis-manipulating"]||[]).push([[2],{322:function(a,n){},397:function(a,n){},398:function(a,n){}}]);
-//# sourceMappingURL=xlsx.87e0ceab.chunk.js.map
