@@ -1,11 +1,40 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { XYChart } from "@amcharts/amcharts4/charts";
 
-import { Axes, DataPoint, DataTags, Tags } from "../types";
+import {
+  Axes,
+  DataPoint,
+  DataTags,
+  ModalProps,
+  ModalState,
+  SettingsState,
+  Tags,
+} from "../types";
+import { getRandomTagName } from "./utils";
 
 export const createCoreStore = () => {
   return {
     isLoaded: 0,
+
+    modalStates: null as ModalState | null,
+
+    tagsCount: 10 as number,
+    pointsCount: 100 as number,
+    isRandomTagsNames: false,
+
+    setSettings({ tagsCount, pointsCount, isRandomTagsNames }: SettingsState) {
+      this.tagsCount = tagsCount;
+      this.pointsCount = pointsCount;
+      this.isRandomTagsNames = isRandomTagsNames;
+    },
+
+    changeStateModal(props: ModalProps) {
+      if (!this.modalStates) {
+        this.modalStates = { [props.type]: props };
+      } else {
+        this.modalStates[props.type] = props;
+      }
+    },
 
     isSiderCollapsed: false,
     isSiderCollapsingNow: false,
@@ -32,7 +61,7 @@ export const createCoreStore = () => {
       ).reduce((acc, key) => {
         const tag = {
           id: `tag-${key}`,
-          name: `Tag-${key}`,
+          name: this.isRandomTagsNames ? getRandomTagName() : `Tag-${key}`,
         };
         return {
           ...acc,
@@ -78,9 +107,9 @@ export const createCoreStore = () => {
     },
 
     data: [] as DataPoint[],
-    generateData({ parametersCount = 10, pointsCount = 100 }) {
-      this.generateTags(parametersCount);
-      this.generateAxes(parametersCount);
+    generateData({ tagsCount = 10, pointsCount = 100 }) {
+      this.generateTags(tagsCount);
+      this.generateAxes(tagsCount);
       const data: DataPoint[] = Array.from(
         { length: pointsCount },
         (v, key) => {

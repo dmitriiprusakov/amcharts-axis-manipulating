@@ -3,6 +3,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .legendTitle {
@@ -22,6 +23,7 @@
     padding-bottom: 0;
     border: 1px dashed transparent;
     border-radius: 0.25rem;
+    overflow: auto;
 
     transition: border var(--drag-transition-speed) ease, border-color var(--drag-transition-speed) ease;
 }

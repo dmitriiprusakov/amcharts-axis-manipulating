@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import { observer } from "mobx-react-lite";
 import { useRootData } from "features/core/hooks";
@@ -51,7 +51,12 @@ const ChartLayout: React.FC = observer(() => {
     }
   }, [axesOrder, axesDictionary, tagsDictionary, data, chartInstance]);
 
-  const chartHeight = 200 * axesOrder.length;
+  const chartHeight = useMemo(() => {
+    if (axesOrder.length <= 4) {
+      return "100%";
+    }
+    return 200 * axesOrder.length;
+  }, [axesOrder]);
 
   console.log("chartHeight", chartHeight);
 

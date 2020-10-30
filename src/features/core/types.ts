@@ -26,3 +26,26 @@ export type Axis = {
 export type Axes = {
   [key: string]: Axis;
 };
+
+export enum ModalEnum {
+  settings = "settings",
+}
+
+type Props = {
+  visible: boolean;
+};
+
+export type ModalProps = {
+  type: ModalEnum;
+  props: Props;
+};
+
+export type ModalState = {
+  [key in ModalEnum]?: ModalProps;
+};
+
+export type SettingsState = {
+  tagsCount: number;
+  pointsCount: number;
+  isRandomTagsNames: boolean;
+};

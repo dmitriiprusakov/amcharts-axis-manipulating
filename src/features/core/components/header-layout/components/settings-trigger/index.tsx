@@ -2,29 +2,25 @@ import { Button } from "antd";
 import { observer } from "mobx-react-lite";
 import SettingOutlined from "@ant-design/icons/SettingOutlined";
 
-import React from "react";
+import React, { useCallback } from "react";
 
+import { ModalEnum } from "features/core/types";
 import { useRootData } from "features/core/hooks";
 
 const SettingsTrigger: React.FC = observer(() => {
-  const {
-    isSiderCollapsed,
-    isSiderCollapsingNow,
-    setSiderCollapsed,
-  } = useRootData((state) => ({
-    isSiderCollapsed: state.core.isSiderCollapsed,
-    isSiderCollapsingNow: state.core.isSiderCollapsingNow,
-
-    setSiderCollapsed: state.core.setSiderCollapsed,
+  const { changeStateModal } = useRootData((state) => ({
+    modalStates: state.core.modalStates,
+    changeStateModal: state.core.changeStateModal,
   }));
 
-  const onClick = () => setSiderCollapsed(!isSiderCollapsed);
+  const handleOpenSettings = useCallback(() => {
+    changeStateModal({ type: ModalEnum.settings, props: { visible: true } });
+  }, [changeStateModal]);
 
   return (
     <Button
-      disabled={isSiderCollapsingNow}
       icon={<SettingOutlined />}
-      onClick={onClick}
+      onClick={handleOpenSettings}
       type="link"
     />
   );
