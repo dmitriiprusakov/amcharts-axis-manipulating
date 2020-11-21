@@ -13,10 +13,5 @@
 }
 
 .chart {
-    /* height: 2000px; */
-}
-
-.chartDateAxis {
-    height: 3rem;
-    width: 100%;
+    height: 100%;
 }

@@ -20,7 +20,7 @@ export const createCoreStore = () => {
 
     tagsCount: 10 as number,
     pointsCount: 100 as number,
-    isRandomTagsNames: false,
+    isRandomTagsNames: true,
 
     setSettings({ tagsCount, pointsCount, isRandomTagsNames }: SettingsState) {
       this.tagsCount = tagsCount;

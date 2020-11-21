@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 
 import { observer } from "mobx-react-lite";
 import { useRootData } from "features/core/hooks";
@@ -37,41 +37,25 @@ const ChartLayout: React.FC = observer(() => {
         chartInstance.series.clear();
         chartInstance.data = data;
 
-        axesOrder.forEach((axisKey) => {
-          const valueAxis = createValueAxis(chartInstance);
+        axesOrder.forEach((axisKey, index) => {
+          const valueAxis = createValueAxis(chartInstance, index);
 
           const axis = axesDictionary[axisKey];
 
           axis.tags.map((tagKey) => {
             const tag = tagsDictionary[tagKey];
-            return createSeries(chartInstance, valueAxis, tag.id);
+            return createSeries(chartInstance, valueAxis, tag, 0);
           });
         });
       }
     }
   }, [axesOrder, axesDictionary, tagsDictionary, data, chartInstance]);
 
-  const chartHeight = useMemo(() => {
-    if (axesOrder.length <= 4) {
-      return "100%";
-    }
-    return 200 * axesOrder.length;
-  }, [axesOrder]);
-
-  console.log("chartHeight", chartHeight);
-
   return (
     <div className={css.layout}>
       <div className={css.chartLayout}>
-        {chartHeight && (
-          <div
-            className={css.chart}
-            id="chart"
-            style={{ height: chartHeight }}
-          />
-        )}
+        <div className={css.chart} id="chart" />
       </div>
-      <div className={css.chartDateAxis} id="date-axis" />
     </div>
   );
 });
