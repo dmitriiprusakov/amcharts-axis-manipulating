@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/amcharts-axis-manipulating/precache-manifest.a57f2994d211a7d3c8d72c1277e1b18c.js"
+  "/amcharts-axis-manipulating/precache-manifest.86cbdeb95b36ecc712a4e20123399fae.js"
 );
 
 self.addEventListener('message', (event) => {
