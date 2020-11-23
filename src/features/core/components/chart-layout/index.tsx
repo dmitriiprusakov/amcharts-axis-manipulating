@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useRootData } from "features/core/hooks";
 
+import { XYSeries } from "@amcharts/amcharts4/charts";
 import { createChart, createSeries, createValueAxis } from "./utils";
 
 import css from "./index.module.css";
@@ -15,6 +16,7 @@ const ChartLayout: React.FC = observer(() => {
     data,
     chartInstance,
     colorSet,
+    hoveredSeries,
     setChartInstance,
   } = useRootData((state) => ({
     tagsDictionary: state.core.tagsDictionary,
@@ -23,6 +25,7 @@ const ChartLayout: React.FC = observer(() => {
     data: state.core.data,
     chartInstance: state.core.chartInstance,
     colorSet: state.core.colorSet,
+    hoveredSeries: state.core.hoveredSeries,
     setChartInstance: state.core.setChartInstance,
   }));
 
@@ -31,6 +34,50 @@ const ChartLayout: React.FC = observer(() => {
     setChartInstance(chart);
     return () => chart.dispose();
   }, [setChartInstance]);
+
+  useEffect(() => {
+    console.log("hoveredSeries", hoveredSeries);
+
+    function processOver(hovered: XYSeries | undefined) {
+      if (!hovered) return;
+      hovered.toFront();
+
+      // @ts-ignore
+      hovered.segments.each((segment) => {
+        segment.setState("hover");
+      });
+
+      chartInstance?.series.each((series) => {
+        if (series !== hovered) {
+          // @ts-ignore
+
+          series.segments.each((segment) => {
+            segment.setState("dimmed");
+          });
+          series.bulletsContainer.setState("dimmed");
+        }
+      });
+    }
+
+    function processOut() {
+      chartInstance?.series.each((series) => {
+        // @ts-ignore
+        series.segments.each((segment) => {
+          segment.setState("default");
+        });
+        series.bulletsContainer.setState("default");
+      });
+    }
+
+    if (hoveredSeries) {
+      const hovered = chartInstance?.series.values.find(
+        (series) => series.id === hoveredSeries.id
+      );
+      processOver(hovered);
+    } else {
+      processOut();
+    }
+  }, [chartInstance, hoveredSeries]);
 
   useEffect(() => {
     if (chartInstance) {

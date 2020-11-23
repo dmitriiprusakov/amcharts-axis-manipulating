@@ -9,6 +9,7 @@ import {
   ModalProps,
   ModalState,
   SettingsState,
+  Tag,
   Tags,
 } from "../types";
 import { getRandomTagName } from "./utils";
@@ -21,10 +22,8 @@ export const createCoreStore = () => {
 
     modalStates: null as ModalState | null,
 
-    hoveredSeries: null,
-    setHoveredSeries(value: any) {
-      console.log(value);
-
+    hoveredSeries: null as null | Tag,
+    setHoveredSeries(value: null | Tag) {
       this.hoveredSeries = value;
     },
 

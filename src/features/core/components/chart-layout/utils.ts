@@ -83,6 +83,7 @@ const createSeriesInstance = (
   seriesInstance.dataFields.dateX = "ts";
   seriesInstance.yAxis = valueAxis;
   seriesInstance.name = name;
+  seriesInstance.id = id;
 
   const segment = seriesInstance.segments.template;
   segment.interactionsEnabled = true;
