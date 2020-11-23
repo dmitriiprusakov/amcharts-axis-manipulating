@@ -40,7 +40,7 @@ const createValueAxis = (
 ): ValueAxis => {
   const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
-  valueAxis.renderer.gridContainer.background.fill = am4core.color("#f2f2f2");
+  valueAxis.renderer.gridContainer.background.fill = am4core.color("#ffffff");
   valueAxis.renderer.minGridDistance = 30;
 
   valueAxis.renderer.inside = true;
@@ -48,7 +48,7 @@ const createValueAxis = (
   valueAxis.renderer.labels.template.verticalCenter = "bottom";
 
   if (index !== 0) {
-    valueAxis.marginBottom = 10;
+    valueAxis.marginTop = 10;
   }
 
   return valueAxis;
@@ -74,16 +74,28 @@ const createSeries = (
 const createSeriesInstance = (
   chart: am4charts.XYChart,
   valueAxis: ValueAxis,
-  { id, name }: Tag
+  { id, name, color }: Tag
 ) => {
   const seriesInstance = chart.series.push(new am4charts.LineSeries());
+  seriesInstance.stroke = am4core.color(color);
   seriesInstance.strokeWidth = 2;
-
   seriesInstance.dataFields.valueY = `${id}`;
   seriesInstance.dataFields.dateX = "ts";
   seriesInstance.yAxis = valueAxis;
   seriesInstance.name = name;
+
+  const segment = seriesInstance.segments.template;
+  segment.interactionsEnabled = true;
+
+  const hoverState = segment.states.create("hover");
+  hoverState.properties.strokeWidth = 3;
+
+  const dimmed = segment.states.create("dimmed");
+  dimmed.properties.stroke = am4core.color("#dadada");
+
   seriesInstance.tooltipText = `{name}\nЗначение: {valueY}`;
+  seriesInstance.tooltip!.getFillFromObject = false;
+  seriesInstance.tooltip!.background.fill = am4core.color(color);
 
   return seriesInstance;
 };

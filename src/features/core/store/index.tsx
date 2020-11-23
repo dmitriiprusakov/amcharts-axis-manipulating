@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { ColorSet } from "@amcharts/amcharts4/core";
 import { XYChart } from "@amcharts/amcharts4/charts";
 
 import {
@@ -14,12 +15,21 @@ import { getRandomTagName } from "./utils";
 
 export const createCoreStore = () => {
   return {
+    colorSet: new ColorSet(),
+
     isLoaded: 0,
 
     modalStates: null as ModalState | null,
 
-    tagsCount: 10 as number,
-    pointsCount: 100 as number,
+    hoveredSeries: null,
+    setHoveredSeries(value: any) {
+      console.log(value);
+
+      this.hoveredSeries = value;
+    },
+
+    tagsCount: 5 as number,
+    pointsCount: 75 as number,
     isRandomTagsNames: true,
 
     setSettings({ tagsCount, pointsCount, isRandomTagsNames }: SettingsState) {
@@ -62,6 +72,7 @@ export const createCoreStore = () => {
         const tag = {
           id: `tag-${key}`,
           name: this.isRandomTagsNames ? getRandomTagName() : `Tag-${key}`,
+          color: this.colorSet.next().hex,
         };
         return {
           ...acc,

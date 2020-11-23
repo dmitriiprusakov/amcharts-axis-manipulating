@@ -14,6 +14,7 @@ const ChartLayout: React.FC = observer(() => {
     axesDictionary,
     data,
     chartInstance,
+    colorSet,
     setChartInstance,
   } = useRootData((state) => ({
     tagsDictionary: state.core.tagsDictionary,
@@ -21,6 +22,7 @@ const ChartLayout: React.FC = observer(() => {
     axesDictionary: state.core.axesDictionary,
     data: state.core.data,
     chartInstance: state.core.chartInstance,
+    colorSet: state.core.colorSet,
     setChartInstance: state.core.setChartInstance,
   }));
 
@@ -35,6 +37,7 @@ const ChartLayout: React.FC = observer(() => {
       if (data.length) {
         chartInstance.yAxes.clear();
         chartInstance.series.clear();
+        colorSet.reset();
         chartInstance.data = data;
 
         axesOrder.forEach((axisKey, index) => {
@@ -49,7 +52,14 @@ const ChartLayout: React.FC = observer(() => {
         });
       }
     }
-  }, [axesOrder, axesDictionary, tagsDictionary, data, chartInstance]);
+  }, [
+    colorSet,
+    axesOrder,
+    axesDictionary,
+    tagsDictionary,
+    data,
+    chartInstance,
+  ]);
 
   return (
     <div className={css.layout}>

@@ -11,6 +11,7 @@ export type DataTags = {
 export type Tag = {
   id: string;
   name: string;
+  color: string;
 };
 
 export type Tags = {
