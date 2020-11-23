@@ -1,36 +1,49 @@
 import { Layout, Result } from "antd";
 import { observer } from "mobx-react-lite";
 import AreaChartOutlined from "@ant-design/icons/AreaChartOutlined";
-import React, { useEffect } from "react";
+
+import React, { Suspense, lazy, useEffect } from "react";
 
 import cn from "classnames";
 
-import { Chart, Legend } from "../components";
+import { ChartLayout, LegendLayout } from "../components";
 
+import { ModalEnum } from "../types";
 import { useRootData } from "../hooks";
+import HeaderLayout from "../components/header-layout";
 import css from "./index.module.css";
 
-const { Content, Sider } = Layout;
+const { Content, Sider, Header } = Layout;
+
+const Settings = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "rule-manager-lazy"  */ "../components/settings"
+    )
+);
 
 const Core: React.FC = observer(() => {
   const {
+    modals,
     isSiderCollapsed,
     isSiderCollapsingNow,
+    tagsCount,
+    pointsCount,
+    isRandomTagsNames,
     generateData,
-    setSiderCollapsed,
   } = useRootData((state) => ({
+    modals: state.core.modalStates,
     isSiderCollapsed: state.core.isSiderCollapsed,
     isSiderCollapsingNow: state.core.isSiderCollapsingNow,
+    tagsCount: state.core.tagsCount,
+    pointsCount: state.core.pointsCount,
+    isRandomTagsNames: state.core.isRandomTagsNames,
     generateData: state.core.generateData,
-
-    setSiderCollapsed: state.core.setSiderCollapsed,
   }));
 
   useEffect(() => {
-    generateData({ parametersCount: 5, pointsCount: 200 });
-  }, [generateData]);
-
-  const onCollapse = (collapsed: boolean) => setSiderCollapsed(collapsed);
+    generateData({ tagsCount, pointsCount });
+  }, [tagsCount, pointsCount, isRandomTagsNames, generateData]);
 
   return (
     <Layout className={css.layout}>
@@ -39,26 +52,38 @@ const Core: React.FC = observer(() => {
         collapsed={isSiderCollapsed}
         collapsedWidth={150}
         collapsible
-        onCollapse={onCollapse}
         theme="light"
+        trigger={null}
         width="20%"
       >
-        <Legend />
+        <LegendLayout />
       </Sider>
-      {isSiderCollapsingNow && (
-        <Result
-          className={css.recalculatingResult}
-          icon={<AreaChartOutlined />}
-          title="Recalculating..."
-        />
+
+      <Layout className="site-layout">
+        <Header className={css.header}>
+          <HeaderLayout />
+        </Header>
+        {isSiderCollapsingNow && (
+          <Result
+            className={css.recalculatingResult}
+            icon={<AreaChartOutlined />}
+            title="Recalculating..."
+          />
+        )}
+        <Content
+          className={cn(css.content, {
+            [css.contentHidden]: isSiderCollapsingNow,
+          })}
+        >
+          <ChartLayout />
+        </Content>
+      </Layout>
+
+      {modals && modals[ModalEnum.settings] && (
+        <Suspense fallback={null}>
+          <Settings />
+        </Suspense>
       )}
-      <Content
-        className={cn(css.content, {
-          [css.contentHidden]: isSiderCollapsingNow,
-        })}
-      >
-        <Chart />
-      </Content>
     </Layout>
   );
 });

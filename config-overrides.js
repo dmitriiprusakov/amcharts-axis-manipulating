@@ -41,21 +41,6 @@ const supportMjs = () => (config) => {
 };
 
 const webpackConfig = () => (config) => {
-  // config.output = {
-  //   ...config.output,
-  //   path: appBuild,
-  //   filename: path.join(
-  //     process.env.npm_package_name,
-  //     "js",
-  //     `bundle.js`
-  //   ),
-  //   chunkFilename: path.join(
-  //     process.env.npm_package_name,
-  //     "js",
-  //     "chunks",
-  //     "[name].js"
-  //   ),
-  // }
   config.optimization.splitChunks = {};
   config.optimization.runtimeChunk = false;
   config.devServer = {

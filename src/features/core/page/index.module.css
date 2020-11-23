@@ -8,7 +8,6 @@ body {
     font-family: Geneva, Arial, Helvetica, sans-serif;
 }
 
-
 :root {
     font-size: 16px;
     height: 100%;
@@ -48,10 +47,21 @@ body {
 .sider {
     overflow: auto;
     transition: all 1s ease 0s !important;
+    border-right: 1px solid #289bd6;
 }
 
 .sider :global(.ant-layout-sider-trigger) {
     transition: all 1s ease 0s !important;
+}
+
+.header {
+    height: 3rem;
+    padding: 0.5rem;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+
+    border-bottom: 1px solid #289bd6;
 }
 
 .recalculatingResult {
