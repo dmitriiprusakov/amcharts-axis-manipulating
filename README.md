@@ -1,8 +1,12 @@
 # amcharts-axis-manipulating
-Grouping and sorting vertically stacked axis with drag&amp;drop.
+Solution for IIoT platform: grouping and sorting vertically stacked axis with drag&amp;drop.
 
-Typescript
-React
-MobX
-Amcharts
-AntDesign
+**Demo**: https://dmitriiprusakov.github.io/amcharts-axis-manipulating/
+
+- Typescript
+- React
+- React-beautiful-dnd
+- I18Next
+- MobX
+- Amcharts
+- AntDesign
